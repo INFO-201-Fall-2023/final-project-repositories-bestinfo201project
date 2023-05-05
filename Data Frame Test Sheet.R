@@ -20,8 +20,8 @@ merged2 <- inner_join(income_rate_df, vaccine_rates_df,
 
 print(select(anti_join(income_rate_df, merged, by = "GeoName"), GeoName))
 
-print(select(anti_join(vaccine_rates_df, merged, 
-                by =  join_by("Jurisdiction..State.Territory..or.Federal.Entity" == "GeoName"))), Jurisdiction..State.Territory..or.Federal.Entity)
+print(anti_join(vaccine_rates_df, merged, 
+                by =  join_by("Jurisdiction..State.Territory..or.Federal.Entity" == "GeoName")))
 
 
 
