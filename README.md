@@ -63,4 +63,5 @@ Data Frame Test Sheet.r shows the code we used to create our unified CSV file.
 
 # Data Nutrition Label 
 
-[Data Nutrition Label.pdf](https://github.com/INFO-201-Fall-2023/final-project-repositories-bestinfo201project/files/11418029/Data.Nutrition.Label.pdf)
+[Data Nutrition Label.pdf](https://github.com/INFO-201-Fall-2023/final-project-repositories-bestinfo201project/files/11418425/Data.Nutrition.Label.pdf)
+
