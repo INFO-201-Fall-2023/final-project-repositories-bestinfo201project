@@ -56,7 +56,7 @@ This data has 180 observations, however, each of these observations is tripled s
 
 # Unified and cleaned CSV File
 
-Data Frame T[Cleaned and Unified.csv](https://github.com/INFO-201-Fall-2023/final-project-repositories-bestinfo201project/files/11418199/Cleaned.and.Unified.csv)
+[Cleaned and Unified.csv](https://github.com/INFO-201-Fall-2023/final-project-repositories-bestinfo201project/files/11418199/Cleaned.and.Unified.csv)
 
 Data Frame Test Sheet.r shows the code we used to create our unified CSV file.
 
