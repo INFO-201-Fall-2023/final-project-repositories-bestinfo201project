@@ -17,18 +17,23 @@ income_rate_df <- select(income_rate_df, -IndustryClassification)
 column_pattern <- "X(19[4-9][0-9]|200[0-9]).Q[1-4]"
 selected_columns <- str_subset(colnames(income_rate_df), column_pattern)
 
+# Store the income columns in a seperate df to be used later
 pre2010_income <- income_rate_df[income_rate_df$Description == "Personal income (millions of dollars, seasonally adjusted) ", colnames(income_rate_df) %in% selected_columns]
 
+# Remove unnecessary information
 income_rate_df <- select(income_rate_df, -Description, -TableName, -Unit, -LineCode)
 income_rate_df <- income_rate_df[, !(colnames(income_rate_df) %in% selected_columns)]
 
+# Split the income data into the three seperate categories income, population, and GDP
 state_income <- income_rate_df[seq(1,nrow(income_rate_df), 3),]
 state_population <- income_rate_df[seq(2,nrow(income_rate_df), 3),]
 state_GDP <- income_rate_df[seq(3,nrow(income_rate_df), 3),]
 
+# Remerge the data so the rows are converted to columns
 state_merge <- inner_join(state_income, state_population, by = join_by(GeoName == GeoName, GeoFIPS == GeoFIPS, Region == Region), suffix = c(".income", ".population"))
 state_merge <- inner_join(state_merge, state_GDP, by = join_by(GeoName == GeoName, GeoFIPS == GeoFIPS, Region == Region), suffix = c("", ".GDP"))
 
+# Merge the vaccine and new state data frame
 merged <- inner_join(state_merge, vaccine_rates_df, 
            by =  join_by("GeoName" == "Jurisdiction..State.Territory..or.Federal.Entity"))
 
@@ -64,5 +69,5 @@ regional_df <- summarise(regional_group, Income = sum(X2022.Q4.income),
                              Residents.with.at.least.one.dose = sum(Residents.with.at.least.one.dose),
                              )
 
-
-write.csv(merged, "Vaccine_Income_Comparison.csv")
+# Write the data to a csv file if necessary 
+# write.csv(merged, "Vaccine_Income_Comparison.csv")
