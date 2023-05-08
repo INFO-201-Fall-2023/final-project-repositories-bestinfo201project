@@ -55,6 +55,10 @@ This data has 180 observations, however, each of these observations is tripled s
 - Highlights how difficult it is to operationalize “economic inequality”, which we also touch on in our project proposal and reasoning behind why we chose to look at regional economic groups as opposed to other measures such as GDP per capita or household income. 
 
 
+# Unified and cleaned CSV File
+
+
+
 # Data Nutrition Label 
 
 [Data Nutrition Label.pdf](https://github.com/INFO-201-Fall-2023/final-project-repositories-bestinfo201project/files/11418029/Data.Nutrition.Label.pdf)
