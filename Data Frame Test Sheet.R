@@ -33,10 +33,6 @@ merged <- inner_join(state_merge, vaccine_rates_df,
            by =  join_by("GeoName" == "Jurisdiction..State.Territory..or.Federal.Entity"))
 
 
-
-
-
-
 # Categorical: create a column that stores the states with herd immunity (vaccine percentage over 80 percent)
 merged <- mutate(merged, Herd.immunity = Percent.of.total.pop.with.at.least.one.dose > 80)
 
@@ -56,7 +52,7 @@ merged <- mutate(merged, income_percent_increase10 = X2012.Q1.income / X2022.Q4.
 # Continuous: Take the percent increase in income against the doses administered
 merged <- mutate(merged, increase_over_vaccines_administered = income_percent_increase10 / Residents.with.at.least.one.dose)
 
-# TODO Summary: Add the data set that groups states by geographical region and take total doses 
+# Summary: Add the data set that groups states by geographical region and take total doses 
 # administered in that region, total population in that region, average income for the region and
 # average change in income over the past 10 years
 US_regions <- read.csv("USAregions.csv")
@@ -68,3 +64,5 @@ regional_df <- summarise(regional_group, Income = sum(X2022.Q4.income),
                              Residents.with.at.least.one.dose = sum(Residents.with.at.least.one.dose),
                              )
 
+
+write.csv(merged, "Vaccine_Income_Comparison.csv")
