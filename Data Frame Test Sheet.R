@@ -20,11 +20,12 @@ selected_columns <- str_subset(colnames(income_rate_df), column_pattern)
 # Store the income columns in a seperate df to be used later
 pre2010_income <- income_rate_df[income_rate_df$Description == "Personal income (millions of dollars, seasonally adjusted) ", colnames(income_rate_df) %in% selected_columns]
 
+
 # Remove unnecessary information
 income_rate_df <- select(income_rate_df, -Description, -TableName, -Unit, -LineCode)
 income_rate_df <- income_rate_df[, !(colnames(income_rate_df) %in% selected_columns)]
 
-# Split the income data into the three seperate categories income, population, and GDP
+# Split the income data into the three separate categories income, population, and GDP
 state_income <- income_rate_df[seq(1,nrow(income_rate_df), 3),]
 state_population <- income_rate_df[seq(2,nrow(income_rate_df), 3),]
 state_GDP <- income_rate_df[seq(3,nrow(income_rate_df), 3),]
@@ -68,6 +69,9 @@ regional_df <- summarise(regional_group, Income = sum(X2022.Q4.income),
                              Doses.distributed = sum(Total.doses.distributed),
                              Residents.with.at.least.one.dose = sum(Residents.with.at.least.one.dose),
                              )
+plot <- ggplot(merged, aes(y = Percent.of.total.pop.with.at.least.one.dose, x = X2022.Q4, label = GeoName)) + 
+  geom_point()+
+  geom_text(aes(label = GeoName, hjust = -0.1, vjust = -0.3))
 
 # Write the data to a csv file if necessary 
 # write.csv(merged, "Vaccine_Income_Comparison.csv")
