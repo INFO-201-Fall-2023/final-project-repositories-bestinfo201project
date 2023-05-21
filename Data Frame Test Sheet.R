@@ -1,6 +1,7 @@
 library(dplyr)
 library(stringr)
 
+
 initial_income_rate_df <- read.csv("SQINC1__ALL_AREAS_1948_2022_CLEAN.csv")
 initial_vaccine_rates_df <- read.csv("covid19_vaccinations_in_the_united_states_CLEAN.csv")
 
@@ -75,3 +76,9 @@ plot <- ggplot(merged, aes(y = Percent.of.total.pop.with.at.least.one.dose, x = 
 
 # Write the data to a csv file if necessary 
 # write.csv(merged, "Vaccine_Income_Comparison.csv")
+
+income_over_time <- read.csv("Income_Over_Time.csv")
+income_over_time <- select(income_over_time, c(1:3))
+line_plot <- ggplot(data = income_over_time, aes(x = Year, y = Average.Income)) +
+             geom_line(aes(color = State)) 
+plot(line_plot)
