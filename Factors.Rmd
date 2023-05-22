@@ -1,5 +1,5 @@
 ---
-title: "Factor Analysis"
+title: "Story 2: Factor Analysis"
 output: html_document
 date: "2023-05-22"
 ---
@@ -9,7 +9,15 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 source("Data Frame Test Sheet.R")
 ```
 
-Here we can see that the influence that population, income per captita, increase in income, doses administered, and doses administered per person against each other.
+Here we will investigate the potential factors that go into increased doses and increased doses per 100K people. 
+
+### Background Information
+- A person would likely need some background in understanding correlation values and how factors can influence each other. 
+- Understanding the specific correlation tests used would also be helpful in understanding how the data is lain out.
+- A general understanding of the COVID-19 pandemic and the media depiction as well as the political climate at the time.
+- An understanding of the intricacies of economic systems and how complicated factors play into influencing them leading the data to likely be a result of not just sample cause and effect but an intertwining system of influence in all directions.
+
+Here we can see that the influence that population, income per captita, increase in income, doses administered, and doses administered per person against each other. The lighter blue square represent higher correlation between the two factors.
 
 ```{r fig1, fig.height = 5, fig.width = 9, echo=FALSE}
 plot(heat_plot)
@@ -26,3 +34,9 @@ plot(scatter_income_current)
 
 Here the population is distributed pretty evenly throughout the plot but does tend to fall closer to the line of best fit.
 
+
+### Takeaways
+- There is a strong correlation between income per capita and doses per 100K people, however many of the other variables seem to have little to no influence on each other.
+- The lack of correlation between population and doses either income per capita or doses per 100K people means that there is not much of a correlation between any of the other variables. 
+- Percent increase has nearly no correlation with any of the other variables.
+- There a three distinct sections of correlation with one being our interesting look at how individual income is correlated with higher vaccine rates and more vaccine access, one showing that having a large population makes other factors not normalized for population larger, and our increase which has no little to no influence on anything

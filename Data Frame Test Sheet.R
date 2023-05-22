@@ -80,6 +80,7 @@ plot <- ggplot(merged, aes(y = Percent.of.total.pop.with.at.least.one.dose, x = 
 # write.csv(merged, "Vaccine_Income_Comparison.csv")
 
 merged$Doses.administered.by.jurisdiction.per.100K.pop = as.numeric(merged$Doses.administered.by.jurisdiction.per.100K.pop)
+merged$Doses.distributed.per.100K.pop = as.numeric(merged$Doses.distributed.per.100K.pop)
 
 # Scatter plots of some of the more interesting relations
 scatter_income_increase <- ggplot(data = filter(merged, GeoName != "United States"), aes(y = Doses.administered.by.jurisdiction.per.100K.pop, x = income_percent_increase10)) + 
@@ -91,8 +92,19 @@ scatter_income_current <- ggplot(data = filter(merged, GeoName != "United States
   geom_smooth(method = "lm", se = FALSE) 
   
 # Create and rename the potential factors that influence eachother
-correlation_data <- select(merged, X2022.Q4, Doses.administered.by.jurisdiction.per.100K.pop, X2022.Q4.population, Total.doses.administered.by.jurisdiction, income_percent_increase10, X2022.Q4.income)
-correlation_data <- rename(correlation_data, "2022 Average Income per Person" = X2022.Q4, "Doses Administered per Person" = Doses.administered.by.jurisdiction.per.100K.pop, "2022 Population" = X2022.Q4.population, "Total Doses Administered" = Total.doses.administered.by.jurisdiction, "Percent Increase in Total Income" = income_percent_increase10, "Total Income" = X2022.Q4.income)
+# correlation_data <- select(merged, X2022.Q4, Doses.administered.by.jurisdiction.per.100K.pop, 
+#                            X2022.Q4.population, Total.doses.administered.by.jurisdiction, 
+#                            X2022.Q4.income, Total.doses.distributed, 
+#                            Doses.administered.by.jurisdiction.per.100K.pop, 
+#                            income_percent_increase10)
+correlation_data <- select(merged, "2022 Average Income per Person" = X2022.Q4, 
+                           "Doses Administered per 100K" = Doses.administered.by.jurisdiction.per.100K.pop,
+                           "Doses Distributed sper 100K" = Doses.distributed.per.100K.pop,
+                           "2022 Population" = X2022.Q4.population, 
+                           "Total Doses Administered" = Total.doses.administered.by.jurisdiction, 
+                           "Total Income" = X2022.Q4.income, 
+                           "Doses Distributed" = Total.doses.distributed,
+                           "Percent Increase in Total Income" = income_percent_increase10)
 
 cor_matrix <- cor(correlation_data)
 melt_data <- melt(cor_matrix)
