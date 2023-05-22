@@ -1,5 +1,7 @@
 library(dplyr)
 library(stringr)
+library(ggplot2)
+library(reshape2)
 
 
 initial_income_rate_df <- read.csv("SQINC1__ALL_AREAS_1948_2022_CLEAN.csv")
@@ -71,14 +73,40 @@ regional_df <- summarise(regional_group, Income = sum(X2022.Q4.income),
                              Residents.with.at.least.one.dose = sum(Residents.with.at.least.one.dose),
                              )
 plot <- ggplot(merged, aes(y = Percent.of.total.pop.with.at.least.one.dose, x = X2022.Q4, label = GeoName)) + 
-  geom_point()+
+  geom_point() +
   geom_text(aes(label = GeoName, hjust = -0.1, vjust = -0.3))
 
 # Write the data to a csv file if necessary 
 # write.csv(merged, "Vaccine_Income_Comparison.csv")
 
+merged$Doses.administered.by.jurisdiction.per.100K.pop = as.numeric(merged$Doses.administered.by.jurisdiction.per.100K.pop)
+
+# Scatter plots of some of the more interesting relations
+scatter_income_increase <- ggplot(data = filter(merged, GeoName != "United States"), aes(y = Doses.administered.by.jurisdiction.per.100K.pop, x = income_percent_increase10)) + 
+  geom_point()
+
+scatter_income_current <- ggplot(data = filter(merged, GeoName != "United States"), aes(y = Doses.administered.by.jurisdiction.per.100K.pop, x = X2022.Q4)) + 
+  geom_point(aes(size = X2022.Q4.population)) +
+  labs(x = "Income per Capita", y = "Doses Administered per 100K", size = "Population") +
+  geom_smooth(method = "lm", se = FALSE) 
+  
+# Create and rename the potential factors that influence eachother
+correlation_data <- select(merged, X2022.Q4, Doses.administered.by.jurisdiction.per.100K.pop, X2022.Q4.population, Total.doses.administered.by.jurisdiction, income_percent_increase10, X2022.Q4.income)
+correlation_data <- rename(correlation_data, "2022 Average Income per Person" = X2022.Q4, "Doses Administered per Person" = Doses.administered.by.jurisdiction.per.100K.pop, "2022 Population" = X2022.Q4.population, "Total Doses Administered" = Total.doses.administered.by.jurisdiction, "Percent Increase in Total Income" = income_percent_increase10, "Total Income" = X2022.Q4.income)
+
+cor_matrix <- cor(correlation_data)
+melt_data <- melt(cor_matrix)
+heat_plot <- ggplot(melt_data, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient(name = "Correlation Strength") +
+  labs(x = "", y = "", title = "Correlation Matrix", color = "Correlation") +
+  theme_minimal()
+
+
 income_over_time <- read.csv("Income_Over_Time.csv")
 income_over_time <- select(income_over_time, c(1:3))
-line_plot <- ggplot(data = income_over_time, aes(x = Year, y = Average.Income)) +
-             geom_line(aes(color = State)) 
-plot(line_plot)
+income_over_time <- left_join(income_over_time, select(merged, GeoName, Total.doses.administered.by.jurisdiction),by = join_by(State == GeoName))
+
+line_plot <- ggplot(data = income_over_time, aes(x = Year, y = Average.Income, group = State)) +
+             geom_line(aes(color = Total.doses.administered.by.jurisdiction)) 
+plot(heat_plot)

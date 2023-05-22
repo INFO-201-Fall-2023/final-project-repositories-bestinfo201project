@@ -1,0 +1,28 @@
+---
+title: "Factor Analysis"
+output: html_document
+date: "2023-05-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+source("Data Frame Test Sheet.R")
+```
+
+Here we can see that the influence that population, income per captita, increase in income, doses administered, and doses administered per person against each other.
+
+```{r fig1, fig.height = 5, fig.width = 9, echo=FALSE}
+plot(heat_plot)
+```
+
+
+Here we can see some unsuprising results such as higher population correlating strongly with higher total income and total doses administered but we can also see some more interesting results. With the doses with those values being normalized for population we continue to see a strong correlation. 
+
+Taking a closer look at this relation we can see how the trend falls roughly along a line in a scatter plot.
+
+```{r pressure, echo=FALSE}
+plot(scatter_income_current)
+```
+
+Here the population is distributed pretty evenly throughout the plot but does tend to fall closer to the line of best fit.
+
