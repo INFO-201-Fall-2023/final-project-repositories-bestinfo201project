@@ -23,7 +23,7 @@ ui <- fluidPage(tabsetPanel(tabPanel(
         selected = NULL
       ),
       br(),
-      text("Here we can see a strong correlation between the total income and the total vaccine doses administered accross all different types of vaccines")
+      HTML("Here we can see a strong correlation between the total income and the total vaccine doses administered accross all different types of vaccines")
     ),
     mainPanel(h3("Vaccine plots"),
               plotlyOutput(outputId = "scatter"))
@@ -37,16 +37,21 @@ ui <- fluidPage(tabsetPanel(tabPanel(
         label = "Choose Vaccine",
         choices = vaccine_list,
         selected = NULL
-      )
+      ),
+      HTML("The plot shows much less correlation when accounting for income")
     ),
     mainPanel(h3("Income Normalized Vaccine Plot"),
             plotlyOutput(outputId = "scatter_income"))
   )),
   tabPanel(
     "Tab 3",
-    h3("Why is that"),
-    plotlyOutput(correlation_fun())
-  ),
+    sidebarLayout(
+      sidebarPanel(
+        HTML("Let's drill down into which factors influence each other, talk about some of the interesting relations")
+        ),
+      mainPanel(h3("Correlation Plot"),
+                plotlyOutput("correlation_plot"))
+    )),
   tabPanel(
     "Tab 4",
     sidebarLayout(
@@ -72,8 +77,11 @@ server <- function(input, output) {
   output$scatter_income <- renderPlotly({
     return(get_vaccine_plot(input$vaccine_name_income, normalize_income = TRUE, fit_line = FALSE))
   })
-  output$scatter_income <- renderPlotly({
-    return(get_vaccine_plot(input$vaccine_name_income, normalize_income = TRUE, normalize_vaccine = TRUE, fit_line = TRUE))
+  output$scatter_normal <- renderPlotly({
+    return(get_vaccine_plot(input$vaccine_name_normal, normalize_income = TRUE, normalize_vaccine = TRUE, fit_line = TRUE))
+  })
+  output$correlation_plot <- renderPlotly({
+    return(ggplotly(heat_plot))
   })
 }
 
