@@ -304,4 +304,44 @@ get_vaccine_plot <- function(vaccine_input, normalize_vaccine = FALSE, normalize
   
 }
 
+correlation_fun <- function(){
+  df <- correlation_data
+  plots <- list()
+  
+  # Iterate through each combination of variables
+  for (i in 2:ncol(df)) {
+    for (j in 2:ncol(df)) {
+      if (i != j) {
+        # Create scatter plot using Plotly
+        p <- plot_ly(df, x = ~df[[i]], y = ~df[[j]], mode = "markers", type = "scatter",
+                     name = paste0("X", i, " vs ", "X", j))
+        
+        # Append the scatter plot to the list
+        plots[[length(plots) + 1]] <- p
+      }
+    }
+  }
+  return(plots)
+}
+
+df_long <- gather(correlation_data, key = "Variable", value = "Value")
+
+# Create empty list to store the scatter plots
+plots <- list()
+
+# Iterate through each combination of variables
+for (i in unique(df_long$Variable)) {
+  for (j in unique(df_long$Variable)) {
+    if (i != j) {
+      # Create scatter plot using ggplot
+      p <- ggplot(df_long, aes(x = Value[df_long$Variable == i], y = Value[df_long$Variable == j])) +
+        geom_point() +
+        labs(x = i, y = j) +
+        ggtitle(paste0(i, " vs ", j))
+      
+      # Append the scatter plot to the list
+      plots[[length(plots) + 1]] <- p
+    }
+  }
+}
 

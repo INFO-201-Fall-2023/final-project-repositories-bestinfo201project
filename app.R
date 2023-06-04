@@ -45,7 +45,7 @@ ui <- fluidPage(tabsetPanel(tabPanel(
   tabPanel(
     "Tab 3",
     h3("Why is that"),
-   pairs(correlation_data)
+    plotlyOutput(correlation_fun())
   ),
   tabPanel(
     "Tab 4",
