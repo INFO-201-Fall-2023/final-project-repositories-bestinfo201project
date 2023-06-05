@@ -31,7 +31,7 @@ ui <- fluidPage(tabsetPanel(tabPanel(
   imageOutput("covid_png")
   ),
   tabPanel(
-  "Tab 1",
+  "An Initial Look at Vaccines and Income",
   titlePanel("The affect of total income on Vaccine Rates"),
   sidebarLayout(
     sidebarPanel(
@@ -42,13 +42,17 @@ ui <- fluidPage(tabsetPanel(tabPanel(
         selected = NULL
       ),
       br(),
-      HTML("Here we can see a strong correlation between the total income and the total vaccine doses administered accross all different types of vaccines")
+      HTML("Here we can see a strong correlation between the total income and 
+           the total vaccine doses administered accross all different types of vaccines.
+           Larger states of course have a higher amount of vaccines administered and total income,
+           we can see how the less commonly taken vaccines have a bit more variance but still 
+           clearly follow an upwards trend.")
     ),
     mainPanel(h3("Vaccine plots"),
               plotlyOutput(outputId = "scatter"))
   )),
   tabPanel(
-  "Tab 2",
+  "Accounting for the individual",
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -57,19 +61,18 @@ ui <- fluidPage(tabsetPanel(tabPanel(
         choices = vaccine_list,
         selected = NULL
       ),
-      HTML("The plot shows much less correlation when accounting for income")
+      HTML("The plot shows much less correlation when accounting for individual income.
+           Here we can see little to no influence on the affect of average individual state income
+           on the total vaccine administered across all different types.")
     ),
     mainPanel(h3("Income Normalized Vaccine Plot"),
             plotlyOutput(outputId = "scatter_income"))
   )),
   tabPanel(
-    "Tab 3",
-    sidebarLayout(
-      sidebarPanel(
-        HTML("Let's drill down into which factors influence each other, talk about some of the interesting relations")
-        ),
-      mainPanel(h3("Correlation Plot"),
-                plotlyOutput("correlation_plot"))
+    "Correlation Matrix",
+      HTML("Let's drill down into which factors influence each other, talk about some of the interesting relations"),
+      h3("Correlation Plot"),
+      plotlyOutput("correlation_plot")
     )),
   tabPanel(
     "Tab 4",
