@@ -85,8 +85,25 @@ ui <- fluidPage(tabsetPanel(tabPanel(
       mainPanel(h3("Fully Normalized Vaccine Plot"),
                 plotlyOutput(outputId = "scatter_normal"))
   )
+  ),
+  tabPanel(
+    "Takeaways & About",
+    titlePanel(title = "Takeaways & About"),
+    br(),
+    h1("Takeaways"),
+    p("All in all, we found that as income increases, vaccination rate also increases. 
+      In lower income states, we recommend that more COVID-19 vaccination funding, resources, and events 
+      are pushed in order to guarantee everyone can get access to immunizations."),
+    br(),
+    h1("About"),
+    p("For direct links to where we got our data, see the introduction page."),
+    br(),
+    p("This project was done by the hard work of: Taylor Woodward, Sai Rimmalapudi, 
+    and Sophie Balint."),
+)
+    
   )
-))
+)
 
 
 server <- function(input, output) {
