@@ -70,12 +70,21 @@ ui <- fluidPage(tabsetPanel(tabPanel(
   )),
   tabPanel(
     "Correlation Matrix",
+    sidebarLayout(
+      sidebarPanel(
       HTML("Let's drill down into which factors influence each other, talk about some of the interesting relations"),
+      HTML("Here we can see the stronger correlations represented in light blue while the weaker correlations are darker.
+           We can confirm what we saw in our first and second graph that the total doses administered is strongly correlated
+           with the total income and population. We can also see that there is a considerably weaker correlation between the 
+           average income per person and the total vaccines. Interestingly in the botton left corner we can see how if we 
+           account for population in both counts we come back with a strong correlation.")
+    ),
+    mainPanel(
       h3("Correlation Plot"),
       plotlyOutput("correlation_plot")
-    )),
+    ))),
   tabPanel(
-    "Tab 4",
+    "Normalizing the Data",
     sidebarLayout(
       sidebarPanel(
         selectInput(
@@ -83,7 +92,12 @@ ui <- fluidPage(tabsetPanel(tabPanel(
           label = "Choose Vaccine",
           choices = vaccine_list,
           selected = NULL
-        )
+        ),
+        HTML("Looking at our graphs we can see a weaker but still unmistakeable correlation between income and vaccine
+             doses administered when accounting for population. This data does fall off a bit when looking at
+             some of the less popular vaccines where we can actually see that they were more popular in the lower
+             economic areas. We can infer a variety of reasons behind this but it likely comes down to a web of
+             complex factors all influencing each other.")
       ),
       mainPanel(h3("Fully Normalized Vaccine Plot"),
                 plotlyOutput(outputId = "scatter_normal"))
