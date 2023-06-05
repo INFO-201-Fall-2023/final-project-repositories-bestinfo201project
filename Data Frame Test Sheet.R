@@ -181,6 +181,7 @@ correlation_data <-
     "Total Doses Administered" = Total.doses.administered.by.jurisdiction,
     "Total Income" = X2022.Q4.income,
     "Doses Distributed" = Total.doses.distributed,
+     all_of(vaccine_col_names),
     "Percent Increase in Total Income" = income_percent_increase10
   )
 # pair_plot <- pairs(correlation_data)
@@ -248,7 +249,7 @@ get_vaccine_plot <- function(vaccine_input, normalize_vaccine = FALSE, normalize
     }
     
     p = p +
-      geom_point(aes(col = Column, size = X2022.Q4.population)) +
+      geom_point(aes(col = Column, size = X2022.Q4.population, text = GeoName)) +
       scale_color_manual(
         values = c("black", "blue", "violet", "purple", "lightblue", "magenta")
         # labels = names(vaccine_list)
@@ -299,7 +300,7 @@ get_vaccine_plot <- function(vaccine_input, normalize_vaccine = FALSE, normalize
       p = p + geom_smooth(method = "lm", se = FALSE, size = 0.8, color = "lightblue3", alpha = 0.5)
     } 
   }
-  p <- ggplotly(p)
+  p <- ggplotly(p, tooltip = "text")
   return(p)
   
 }
